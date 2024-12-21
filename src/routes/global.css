@@ -1,0 +1,260 @@
+body {
+	margin: 0;
+}
+
+:root {
+	--border-radius: 0.25rem;
+	--border-width: 1px;
+
+	--nav-element-spacing-vertical: 1rem;
+	--nav-element-spacing-horizontal: 0.5rem;
+	--nav-link-spacing-vertical: 0.5rem;
+	--nav-link-spacing-horizontal: 0.5rem;
+}
+
+.app {
+	font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial,
+		'Lucida Grande', sans-serif;
+
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+
+	background-color: #1a1a1a;
+	color: white;
+}
+
+/* @media (prefers-color-scheme: light) {
+      .app {
+        background-color: #eee;
+        color: black;
+      }
+    } */
+
+header {
+	display: flex;
+	flex-direction: column;
+	width: 80%;
+	/* max-width: 75rem; */
+	box-sizing: border-box;
+	margin: 0 auto;
+	justify-content: space-between;
+}
+
+nav,
+nav ul {
+	display: flex;
+}
+
+nav {
+	justify-content: space-between;
+}
+
+nav ul {
+	align-items: center;
+	margin-bottom: 0;
+	padding: 0;
+	list-style: none;
+}
+
+nav ul:first-of-type {
+	margin-left: calc(var(--nav-element-spacing-horizontal) * -1);
+}
+
+nav ul:last-of-type {
+	margin-right: calc(var(--nav-element-spacing-horizontal) * -1);
+}
+
+nav li {
+	min-width: fit-content;
+	display: inline-block;
+	margin: 0 0.3rem;
+	text-decoration: none;
+	padding: var(--nav-element-spacing-vertical) calc(var(--nav-element-spacing-horizontal) * 0.5);
+}
+
+h1 > a,
+table td > a,
+nav li > a {
+	font-size: 1.25rem;
+	display: inline-block;
+	margin: calc(var(--nav-link-spacing-vertical) * -1) calc(var(--nav-link-spacing-horizontal));
+	padding: var(--nav-link-spacing-vertical) var(--nav-link-spacing-horizontal);
+	border-radius: var(--border-radius);
+	text-decoration: none;
+	/* border: solid 1px white; */
+	color: white;
+	transition: 0.3s;
+	cursor: pointer;
+}
+
+h1 > a {
+	font-size: inherit;
+}
+
+h1 > a:hover,
+h1 > a:active,
+h1 > a:focus,
+table td > a:hover,
+table td > a:active,
+table td > a:focus,
+nav li > a:hover,
+nav li > a:active,
+nav li > a:focus {
+	text-decoration: none;
+}
+
+h1 > a:hover,
+table td > a:hover,
+nav li > a:hover {
+	background-color: #3c3c3c;
+}
+h1 > a:active,
+h1 > a:focus,
+table td > a:active,
+table td > a:focus,
+nav li > a:focus,
+nav li > a:active {
+	transform: scale(0.9);
+}
+
+main {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	padding: 1rem 0;
+	max-width: 80%;
+	width: 100%;
+	margin: 0 auto;
+	box-sizing: border-box;
+}
+
+footer {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	padding: 12px;
+	color: #3c3c3c;
+}
+
+@media (min-width: 480px) {
+	footer {
+		padding: 12px 0;
+	}
+}
+
+section span {
+	display: flex;
+	gap: 1rem;
+}
+
+section span > button {
+	flex: 1;
+}
+
+button {
+	appearance: none;
+	background-color: white;
+	color: #1a1a1a;
+	font-size: 1.15rem;
+	display: block;
+	border-radius: var(--border-radius);
+	padding: 0.5rem;
+	transition: 0.3s;
+}
+
+button:hover {
+	background-color: lightgray;
+}
+
+button:active {
+	transform: scale(0.9);
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table tr:hover {
+	background-color: #2b2b2b;
+}
+
+table th,
+table td {
+	font-size: 1.15rem;
+	margin: 0.5rem 0.5rem;
+	padding: 0.25rem 0.5rem;
+}
+
+table th {
+	text-align: left;
+	padding: 0.5rem;
+	border-bottom: solid 0.5px white;
+}
+
+form {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+	margin: 0.5rem 0;
+	align-items: center;
+}
+
+form > h2,
+form > label {
+	display: block;
+	width: 80%;
+	max-width: 25rem;
+	text-align: left;
+}
+
+input[type='text'],
+input[type='password'],
+input[type='submit'],
+input[type='button'] {
+	max-width: 25rem;
+	width: 80%;
+	appearance: none;
+	color: inherit;
+	font-size: 1.15rem;
+	display: block;
+	background-color: inherit;
+	border: solid white 1px;
+	border-radius: var(--border-radius);
+	padding: 0.5rem;
+	transition: 0.3s;
+}
+
+input[type='submit'],
+input[type='button'] {
+	place-self: center;
+	border: none;
+	background-color: white;
+	color: #1a1a1a;
+}
+
+input[type='text']:active,
+input[type='password']:active,
+input[type='text']:focus,
+input[type='password']:focus {
+	outline: none;
+	background-color: #2b2b2b;
+}
+
+input[type='submit']:hover,
+input[type='button']:hover {
+	background-color: lightgray;
+}
+
+input[type='submit']:active,
+input[type='button']:active {
+	transform: scale(0.9);
+}
+
+select {
+	width: 80%;
+	max-width: 25rem;
+	font-size: 1.15rem;
+	padding: 0.5rem;
+}
