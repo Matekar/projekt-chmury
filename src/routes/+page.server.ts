@@ -30,7 +30,6 @@ async function fetchMovies(): Promise<{ title: string; rating: number }[]> {
             MATCH (m:Movie)
             RETURN m.title AS title, m.rating AS rating
             ORDER BY m.rating DESC
-            LIMIT 10
         `);
 
 		const movies = result.records.map((record) => ({
@@ -62,6 +61,34 @@ async function fetchUsers(): Promise<{ name: string }[]> {
 	} catch (error) {
 		console.error('Error fetching users:', error);
 		throw new Error('Could not fetch users.');
+	} finally {
+		await session.close();
+	}
+}
+
+async function addUser(name: string, age: number): Promise<string> {
+	const driver = await initializeNeo4j();
+	const session: Session = driver.session();
+
+	try {
+		const result = await session.run(
+			`
+			MATCH (u:User)
+      WITH COUNT(u) AS userCount
+      CREATE (newUser:User {userId: $id, name: $name, age: $age})
+      RETURN newUser.id AS id
+		`,
+			{
+				id: `u${Math.floor(Date.now() / 1000)}`,
+				name,
+				age
+			}
+		);
+
+		const createdUserId = result.records[0]?.get('id') as string;
+		return createdUserId || 'Unknown ID';
+	} catch (err) {
+		console.error('ERR: ', err);
 	} finally {
 		await session.close();
 	}
@@ -162,10 +189,13 @@ export const load: PageServerLoad = async () => {
 
 	if (username != null) {
 		const fetchResult = await fetchUserMovies(username);
-		ratedMovies = fetchResult.ratedMovies.map((movie) => ({
-			...movie,
-			userRating: movie.userRating.low
-		}));
+
+		if (fetchResult.ratedMovies[0].title != null) {
+			ratedMovies = fetchResult.ratedMovies.map((movie) => ({
+				...movie,
+				userRating: movie.userRating.low
+			}));
+		}
 		unratedMovies = fetchResult.unratedMovies;
 	}
 
@@ -179,6 +209,26 @@ export const load: PageServerLoad = async () => {
 };
 
 export const actions = {
+	addUser: async (e) => {
+		const data = await e.request.formData();
+		const name = data.get('name');
+		const age = data.get('age');
+
+		if (typeof name?.valueOf() != 'string' && isNaN(parseInt(age?.valueOf() as string))) {
+			return {
+				status: 400,
+				body: { error: 'ERR' }
+			};
+		}
+
+		try {
+			await addUser(name?.valueOf() as string, parseInt(age?.valueOf() as string));
+			return { success: true };
+		} catch (err) {
+			return { success: false };
+		}
+	},
+
 	fetchUserMovies: async (e) => {
 		const data = await e.request.formData();
 		const name = data.get('name');

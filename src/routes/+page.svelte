@@ -12,17 +12,29 @@
 </script>
 
 <article>
-	<form action="?/fetchUserMovies" method="post">
-		<label for="user-dropdown">User:</label>
-		<select id="user-dropdown" on:change={handleUserChange} bind:value={selectedUser} name="name">
-			<option value="" disabled selected>Select a user</option>
-			{#each data.props.users as user}
-				<option value={user.name}>{user.name}</option>
-			{/each}
-		</select>
-		<button>Select User</button>
-	</form>
+	<div class="row">
+		<form action="?/fetchUserMovies" method="post">
+			<label for="user-dropdown">User:</label>
+			<select id="user-dropdown" on:change={handleUserChange} bind:value={selectedUser} name="name">
+				<option value="" disabled selected>Select a user</option>
+				{#each data.props.users as user}
+					<option value={user.name}>{user.name}</option>
+				{/each}
+			</select>
+			<button>Select User</button>
+		</form>
+
+		<form action="?/addUser" method="post">
+			<label for="name">Name:</label>
+			<input type="text" name="name" id="name" required>
+			<label for="age">Age: </label>
+			<input type="text" name="age" id="age" required>
+			<button>Add User</button>
+		</form>
+	</div>
+
 	<hr />
+
 	{#if data.props.ratedMovies}
 		<h2>Rated Movies:</h2>
 		<div class="row">
